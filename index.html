@@ -25,7 +25,7 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: visible; /* 플로팅 버튼이 잘리지 않도록 변경 */
+            overflow: visible;
         }
 
         .header {
@@ -92,6 +92,14 @@
             box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
         }
 
+        /* 버튼 컨테이너 추가 */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -103,8 +111,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            margin-right: 10px;
-            margin-top: 5px;
+            flex: 1 1 auto;
+            min-width: 140px;
+            white-space: nowrap;
         }
 
         .btn:hover {
@@ -112,7 +121,7 @@
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
         }
         
-        .btn-quiz { /* Flashcard button style */
+        .btn-quiz {
             background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
             box-shadow: 0 4px 15px rgba(255, 126, 95, 0.4);
         }
@@ -264,6 +273,7 @@
             padding: 6px 12px;
             font-size: 14px;
             border-radius: 6px;
+            min-width: auto;
         }
 
         .empty-state {
@@ -302,7 +312,7 @@
             box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
         }
 
-        /* --- ✨ REQUESTED CHANGE: FLOATING PAGINATION STYLES --- */
+        /* Floating Pagination */
         #notMemPagination, #memPagination {
             position: fixed;
             top: 50%;
@@ -360,8 +370,6 @@
             color: white;
             border-color: #007bff;
         }
-        /* --- END OF CHANGE --- */
-
 
         /* Modal Styles */
         .modal {
@@ -403,7 +411,7 @@
             cursor: pointer;
         }
 
-        /* --- Flashcard Modal Styles --- */
+        /* Flashcard Modal Styles */
         .flashcard-scene {
             width: 100%;
             height: 200px;
@@ -455,6 +463,13 @@
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-controls .btn {
+            flex: 1 1 auto;
+            min-width: 80px;
         }
 
         #flashcard-progress {
@@ -463,21 +478,153 @@
             font-size: 1.1rem;
         }
 
-        @media (max-width: 900px) { /* Breakpoint for floating pagination */
+        /* 모바일 대응 */
+        @media (max-width: 900px) {
             #notMemPagination, #memPagination {
                 display: none;
             }
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 0.95rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .input-section {
+                padding: 20px;
+            }
+
             .input-group {
                 flex-direction: column;
             }
+
+            .input-field {
+                min-width: 100%;
+            }
+
+            /* 모바일에서 버튼 배치 개선 */
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: 100%;
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
             .word-lists {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
+
+            .word-list {
+                min-width: 100%;
+            }
+
+            .word-item {
+                padding: 12px 15px;
+            }
+
+            .word-text {
+                font-size: 1rem;
+            }
+
+            .word-meaning {
+                font-size: 0.9rem;
+            }
+
+            .word-actions {
+                gap: 8px;
+            }
+
+            .btn-small {
+                padding: 8px 12px;
+                font-size: 13px;
+                flex: 1 1 auto;
+                min-width: calc(50% - 4px);
+            }
+
             .modal-content {
                 margin: 25% auto;
+                padding: 20px;
+                width: 95%;
+            }
+
+            .flashcard-scene {
+                height: 180px;
+            }
+
+            .flashcard-face {
+                font-size: 1.8rem;
+                padding: 10px;
+            }
+
+            .flashcard-controls {
+                flex-direction: column;
+            }
+
+            .flashcard-controls .btn {
+                width: 100%;
+                min-width: 100%;
+            }
+
+            #flashcard-progress {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.85rem;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .input-section {
+                padding: 15px;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .flashcard-face {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -501,12 +648,14 @@
                         <input type="text" id="meaningInput" placeholder="예: 집">
                     </div>
                 </div>
-                <button class="btn" onclick="addWord()">단어 추가</button>
-                <button class="btn" onclick="document.getElementById('excelFile').click()" title="Excel 파일을 선택하여 여러 단어를 한 번에 추가하세요. (컬럼: '인도네시아어 단어', '한국어 뜻')">📊 Excel 업로드</button>
-                <button class="btn btn-export" onclick="exportToExcel()" title="현재 단어 목록을 Excel 파일로 다운로드하세요.">📥 Excel 저장</button>
                 
-                <button id="startNotMemFlashcardBtn" class="btn btn-quiz">📇 암기할 단어 학습</button>
-                <button id="startMemFlashcardBtn" class="btn btn-review">🔁 암기한 단어 복습</button>
+                <div class="button-group">
+                    <button class="btn" onclick="addWord()">단어 추가</button>
+                    <button class="btn" onclick="document.getElementById('excelFile').click()" title="Excel 파일을 선택하여 여러 단어를 한 번에 추가하세요. (컬럼: '인도네시아어 단어', '한국어 뜻')">📊 Excel 업로드</button>
+                    <button class="btn btn-export" onclick="exportToExcel()" title="현재 단어 목록을 Excel 파일로 다운로드하세요.">📥 Excel 저장</button>
+                    <button id="startNotMemFlashcardBtn" class="btn btn-quiz">📇 암기할 단어 학습</button>
+                    <button id="startMemFlashcardBtn" class="btn btn-review">🔁 암기한 단어 복습</button>
+                </div>
 
                 <input type="file" id="excelFile" accept=".xlsx,.xls" style="display: none;">
             </div>
@@ -625,7 +774,6 @@
         alert('단어가 추가되었습니다!');
     }
 
-    // ✅ 암기 여부를 true/false로 저장해서 더 확실하게
     function exportToExcel() {
         if (vocabulary.words.length === 0) {
             alert('내보낼 단어가 없습니다.');
@@ -635,7 +783,7 @@
         const rows = vocabulary.words.map(w => ({
             '인도네시아어 단어': w.word,
             '한국어 뜻': w.meaning,
-            '암기 여부': w.memorized, // true / false 로 저장
+            '암기 여부': w.memorized,
             '추가 날짜': w.addedDate || ''
         }));
 
@@ -649,7 +797,6 @@
         alert('Excel 파일로 저장되었습니다!');
     }
 
-    // ✅ 암기 여부 값 파싱 (true / false / 1 / 0 / 문자열 등 처리)
     function parseMemorized(value) {
         if (value === true) return true;
         if (value === false) return false;
@@ -663,11 +810,9 @@
         if (str === 'true' || str === '1' || str === 'o' || str === 'yes') return true;
         if (str === 'false' || str === '0' || str === 'x' || str === 'no' || str === '') return false;
 
-        // 잘 모르는 값이면 일단 false로
         return false;
     }
 
-    // ✅ 엑셀 업로드: 암기 여부/추가 날짜까지 복원
     document.getElementById('excelFile').addEventListener('change', async function(e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -702,10 +847,7 @@
                     continue;
                 }
 
-                // 암기 여부 true/false 복원
                 const memorized = parseMemorized(row['암기 여부']);
-
-                // 추가 날짜 복원 (없으면 오늘 날짜)
                 const addedDateCell = (row['추가 날짜'] || '').toString().trim();
                 const addedDate = addedDateCell || new Date().toLocaleDateString();
 
@@ -765,7 +907,7 @@
         if (totalPages <= 1) return;
         
         const pages = [];
-        const maxButtons = 5; // Reduced for vertical layout
+        const maxButtons = 5;
         if (totalPages <= maxButtons) {
             for (let i = 1; i <= totalPages; i++) pages.push(i);
         } else {
@@ -957,7 +1099,6 @@
         );
     }
 
-    // --- Flashcard Functions ---
     const flashcardModal = document.getElementById('flashcard-modal');
 
     function shuffleArray(array) {
