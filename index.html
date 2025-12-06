@@ -28,6 +28,7 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             overflow: visible;
+            position: relative;
         }
 
         .header {
@@ -35,6 +36,7 @@
             color: white;
             padding: 20px 15px;
             text-align: center;
+            position: relative;
         }
 
         .header h1 {
@@ -46,6 +48,33 @@
         .header p {
             opacity: 0.9;
             font-size: 0.9rem;
+        }
+
+        .reset-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .reset-button:active {
+            transform: scale(0.95);
         }
 
         .content {
@@ -251,13 +280,6 @@
             color: #4a5568;
             margin-bottom: 10px;
             font-size: 0.95rem;
-        }
-
-        .word-date {
-            color: #718096;
-            font-size: 0.75rem;
-            margin-bottom: 8px;
-            font-style: italic;
         }
 
         .word-actions {
@@ -468,6 +490,13 @@
 
         .flashcard-nav button {
             flex: 1;
+            padding: 20px 12px; /* 높이 2배 */
+            font-size: 16px;
+        }
+
+        .flashcard-action-btn {
+            padding: 20px 12px; /* 높이 2배 */
+            font-size: 16px;
         }
 
         .flashcard-progress {
@@ -541,6 +570,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <button class="reset-button" onclick="resetAllData()" title="모든 단어 초기화">×</button>
             <h1>🇮🇩 인도네시아어 단어장</h1>
             <p>단어를 입력하고 플래시카드로 학습하세요</p>
         </div>
@@ -630,7 +660,7 @@
                         <button class="btn" id="flashcard-prev-btn">◀ 이전</button>
                         <button class="btn" id="flashcard-next-btn">다음 ▶</button>
                     </div>
-                    <button class="btn btn-secondary" id="flashcard-action-btn">암기 완료</button>
+                    <button class="btn btn-secondary flashcard-action-btn" id="flashcard-action-btn">암기 완료</button>
                 </div>
             </div>
         </div>
@@ -722,6 +752,18 @@
             vocabulary.words = vocabulary.words.filter(w => w.id !== id);
             saveToStorage();
             updateDisplay();
+        }
+    }
+
+    function resetAllData() {
+        if (confirm('정말 모든 단어를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+            if (confirm('최종 확인: 모든 데이터가 영구적으로 삭제됩니다.')) {
+                vocabulary.words = [];
+                nextId = 1;
+                saveToStorage();
+                updateDisplay();
+                alert('모든 단어가 삭제되었습니다.');
+            }
         }
     }
 
@@ -864,7 +906,6 @@
                         onclick="if (!event.target.closest('.word-actions')) enterEditMode(${word.id})">
                         <div class="word-text">${word.word}</div>
                         <div class="word-meaning">${word.meaning}</div>
-                        <div class="word-date">추가: ${formatDate(word.addedDate)}</div>
                         <div class="word-actions">
                             <button class="btn btn-small" onclick="event.stopPropagation(); toggleMemorized(${word.id})">
                                 ${word.memorized ? '암기 취소' : '암기 완료'}
@@ -1031,10 +1072,10 @@
         const actionBtn = document.getElementById('flashcard-action-btn');
         if (currentFlashcardMode === 'notMemorized') {
             actionBtn.textContent = '암기 완료';
-            actionBtn.className = 'btn btn-secondary';
+            actionBtn.className = 'btn btn-secondary flashcard-action-btn';
         } else {
             actionBtn.textContent = '다시 암기하기';
-            actionBtn.className = 'btn btn-review';
+            actionBtn.className = 'btn btn-review flashcard-action-btn';
         }
     }
 
