@@ -184,7 +184,11 @@
         .btn-kbbi {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
-
+        
+        .btn-naver {
+            background: linear-gradient(135deg, #03c75a 0%, #00e676 100%);
+        }
+        
         .btn-daum {
             background: linear-gradient(135deg, #007bff 0%, #00bfff 100%);
         }
@@ -914,6 +918,7 @@
                             <button class="btn btn-secondary btn-small" onclick="event.stopPropagation(); deleteWord(${word.id})">삭제</button>
                             <button class="btn btn-small btn-edit" onclick="event.stopPropagation(); enterEditMode(${word.id})" title="수정">✏️</button>
                             <button class="btn btn-small btn-kbbi" onclick="event.stopPropagation(); showKBBI(${word.id})">KBBI</button>
+                            <button class="btn btn-small btn-naver" onclick="event.stopPropagation(); showNaver(${word.id})">Naver</button>
                             <button class="btn btn-small btn-daum" onclick="event.stopPropagation(); showDaum(${word.id})">Daum</button>
                         </div>
                     </div>`).join('');
@@ -944,6 +949,14 @@
         );
     }
 
+    function showNaver(id) {
+        const word = vocabulary.words.find(w => w.id === id);
+        if (word) window.open(
+            `https://dict.naver.com/idkodict/#/search?query=${encodeURIComponent(word.word)}`,
+            '_blank'
+        );
+    }
+    
     function showDaum(id) {
         const word = vocabulary.words.find(w => w.id === id);
         if (word) window.open(
