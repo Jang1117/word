@@ -774,20 +774,25 @@
     function enterEditMode(id) {
         const word = vocabulary.words.find(w => w.id === id);
         if (!word) return;
-
+    
         const wordItem = document.querySelector(`[data-word-id="${id}"]`);
         if (wordItem) {
             wordItem.classList.add('edit-mode');
             wordItem.innerHTML = `
-                <div class="edit-inputs">
+                <div class="edit-inputs" onclick="event.stopPropagation()">
                     <input type="text" id="edit-word-${id}" value="${word.word}">
                     <input type="text" id="edit-meaning-${id}" value="${word.meaning}">
                 </div>
                 <div class="edit-buttons">
-                    <button class="btn btn-small" onclick="saveEdit(${id})">저장</button>
-                    <button class="btn btn-secondary btn-small" onclick="cancelEdit(${id})">취소</button>
+                    <button class="btn btn-small" onclick="event.stopPropagation(); saveEdit(${id})">저장</button>
+                    <button class="btn btn-secondary btn-small" onclick="event.stopPropagation(); cancelEdit(${id})">취소</button>
                 </div>
             `;
+            
+            // 첫 번째 입력창에 자동 포커스
+            setTimeout(() => {
+                document.getElementById(`edit-word-${id}`).focus();
+            }, 0);
         }
     }
 
